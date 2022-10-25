@@ -10,6 +10,13 @@
             <p class="text-center">
                 <a href="{{ path('task', {'id': task.id}) }}">{{ task.title }}</a>
             </p>
+            <div class="d-flex justify-content-around">
+                {% for category in task.categories %}
+                    <div>
+                        <span class="badge rounded-pill bg-info">{{ category.name }}</span>
+                    </div>
+                {% endfor %}
+            </div>
             <p>{{ task.description }}</p>
             <p>{{ task.user.username }}</p>
             <p>{{ task.endDate|date("d/m/Y") }}</p>
@@ -23,6 +30,5 @@
         </div>
     {% endfor %}
   </div>
-
 
 {% endblock %}
