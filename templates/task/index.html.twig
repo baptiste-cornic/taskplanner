@@ -7,7 +7,9 @@
   <div class="row">
     {% for task in tasks %}
         <div class="card m-1 p-2 col-3">
-            <p class="text-center">{{ task.title }}</p>
+            <p class="text-center">
+                <a href="{{ path('task', {'id': task.id}) }}">{{ task.title }}</a>
+            </p>
             <p>{{ task.description }}</p>
             <p>{{ task.user.username }}</p>
             <p>{{ task.endDate|date("d/m/Y") }}</p>

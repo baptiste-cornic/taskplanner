@@ -11,14 +11,27 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
+
+    public function __construct(private TaskRepository $taskRepo){
+    }
+
     #[Route('/tasklist', name: 'task_list')]
     public function index(ManagerRegistry $doctrine): Response
     {
-
-        $tasks = $doctrine->getRepository(Task::class)->findAll();
+        $tasks = $this->taskRepo->findAll();
 
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks,
+        ]);
+    }
+
+    #[Route('/task/{id}', name: 'task', requirements: ['id' => '[0-9]+'])]
+    public function task($id = null): Response
+    {
+        $task = $this->taskRepo->find($id);
+       // dd($task);
+        return $this->render('task/task.html.twig', [
+            'task' => $task,
         ]);
     }
 }
