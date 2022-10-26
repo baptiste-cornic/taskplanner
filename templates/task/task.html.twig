@@ -7,11 +7,26 @@
        <h2 class="text-center">{{ task.title }}</h2>
         <p>{{ task.description }}</p>
         <div class="row">
-            <div class="col-4">
+            <div class="col-3">
+                {% if 'now'|date_modify("-1 day") < task.endDate %}
+                    <span class="badge bg-danger">
+                        Urgent
+                    </span>
+                {% elseif 'now'|date_modify("-7 day") < task.endDate %}
+                    <span class="badge bg-warning">
+                           Rappel
+                        </span>
+                {% else %}
+                    <span class="badge bg-success">
+                            To do
+                        </span>
+                {% endif %}
+            </div>
+            <div class="col-3">
                 <p>Fait par : {{ task.user.username }}</p>
             </div>
-            <div class="col-4">  <p>A finir avant le :  {{ task.endDate|date("d/m/Y") }}</p></div>
-            <div class="col-4">
+            <div class="col-3">  <p>A finir avant le :  {{ task.endDate|date("d/m/Y") }}</p></div>
+            <div class="col-3">
                 <p>
                     {% if task.isDone %}
                         Faite
