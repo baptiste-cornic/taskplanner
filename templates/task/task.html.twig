@@ -7,6 +7,13 @@
        <h2 class="text-center">{{ task.title }}</h2>
         <p>{{ task.description }}</p>
         <div class="row">
+            <p>
+                {% for tag in task.tags %}
+                    #{{ tag.name }}
+                {% endfor %}
+            </p>
+        </div>
+        <div class="row">
             <div class="col-3">
                 {% if 'now'|date_modify("-1 day") < task.endDate %}
                     <span class="badge bg-danger">
