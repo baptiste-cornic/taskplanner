@@ -6,7 +6,9 @@ use App\Entity\Task;
 use App\Repository\CategoryRepository;
 use App\Repository\TaskRepository;
 use Doctrine\Persistence\ManagerRegistry;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -35,6 +37,22 @@ class TaskController extends AbstractController
 
         return $this->render('task/task.html.twig', [
             'task' => $task,
+        ]);
+    }
+
+    #[Route('/search', name: 'search', methods: ['POST'])]
+    public function search(ManagerRegistry $doctrine,string $keyword = null, Request $request): Response
+    {
+        $keyword = $request->get('search');
+
+        if ($keyword)
+            $tasks = $this->taskRepo->findWithKeyWord($keyword);
+
+        $categories = $this->categoryRepo->findAll();
+
+        return $this->render('task/index.html.twig', [
+            'tasks' => $tasks??null,
+            'categories' => $categories??null,
         ]);
     }
 }

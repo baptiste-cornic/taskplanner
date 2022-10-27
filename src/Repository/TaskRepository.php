@@ -39,6 +39,17 @@ class TaskRepository extends ServiceEntityRepository
         }
     }
 
+    public function findWithKeyWord($keyword){
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.description LIKE :keyword')
+            ->orWhere('t.title LIKE :keyword')
+            ->setParameter('keyword', '%'.$keyword.'%')
+            ->orderBy('t.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Task[] Returns an array of Task objects
 //     */
