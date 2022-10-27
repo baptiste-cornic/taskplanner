@@ -6,6 +6,8 @@ use App\Entity\Task;
 use App\Repository\CategoryRepository;
 use App\Repository\TaskRepository;
 use App\Service\UrgencyService;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,5 +58,20 @@ class TaskController extends AbstractController
             'tasks' => $tasks??null,
             'categories' => $categories??null,
         ]);
+    }
+
+    #[Route('/task/delete/{id}', name: 'delete_task', requirements: ['id' => '[0-9]+'])]
+    public function deleteTask($id = null, EntityManagerInterface $em): Response
+    {
+        $task = $this->taskRepo->find($id);
+
+        if (!$this->isGranted('ROLE_ADMIN')){
+            $this->addFlash('error', 'Interdit de supprimer' );
+            return $this->redirectToRoute('task', ['id' => $id]);
+        }
+        $em->remove($task);
+        $em->flush();
+
+        return $this->redirectToRoute('task_list');
     }
 }

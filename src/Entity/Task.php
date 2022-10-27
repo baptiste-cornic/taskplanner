@@ -16,7 +16,7 @@ class Task
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 63)]
+    #[ORM\Column(length: 127)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -35,7 +35,7 @@ class Task
     #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'task')]
     private Collection $categories;
 
-    #[ORM\OneToMany(mappedBy: 'task', targetEntity: Tag::class)]
+    #[ORM\OneToMany(mappedBy: 'task', targetEntity: Tag::class, orphanRemoval: true)]
     private Collection $tags;
 
     private array $urgency;
