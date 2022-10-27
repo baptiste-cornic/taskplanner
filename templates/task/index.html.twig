@@ -28,19 +28,7 @@
                           {% endfor %}
                       </div>
                       <p>
-                          {% if 'now'|date_modify("-1 day") < task.endDate %}
-                              <span class="badge bg-danger">
-                        Urgent
-                    </span>
-                          {% elseif 'now'|date_modify("-7 day") < task.endDate %}
-                              <span class="badge bg-warning">
-                           Rappel
-                        </span>
-                          {% else %}
-                              <span class="badge bg-success">
-                            To do
-                        </span>
-                          {% endif %}
+                        <span class="badge bg-{{ task.urgency.color }}">{{ task.urgency.msg }}</span>
                       </p>
                       <p>{{ task.description }}</p>
                       <p>{{ task.user.username }}</p>

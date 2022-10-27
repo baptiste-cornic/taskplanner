@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Repository\CategoryRepository;
 use App\Repository\TaskRepository;
+use App\Service\UrgencyService;
 use Doctrine\Persistence\ManagerRegistry;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +20,11 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasklist', name: 'task_list')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(ManagerRegistry $doctrine, UrgencyService $urgencyService): Response
     {
         $tasks = $this->taskRepo->findAll();
         $categories = $this->categoryRepo->findAll();
+        $tasks = $urgencyService->getUrgency($tasks);
 
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks,

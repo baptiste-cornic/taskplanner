@@ -38,6 +38,8 @@ class Task
     #[ORM\OneToMany(mappedBy: 'task', targetEntity: Tag::class)]
     private Collection $tags;
 
+    private array $urgency;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -164,5 +166,21 @@ class Task
         }
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUrgency()
+    {
+        return $this->urgency;
+    }
+
+    /**
+     * @param array $urgency
+     */
+    public function setUrgency($urgency): void
+    {
+        $this->urgency = $urgency;
     }
 }
