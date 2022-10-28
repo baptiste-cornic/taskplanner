@@ -30,16 +30,16 @@
                       <p>
                         <span class="badge bg-{{ task.urgency.color }}">{{ task.urgency.msg }}</span>
                       </p>
-                      <p>{{ task.description }}</p>
+                      <p>{{ task.description| slice (0, 150)~'...' }}</p>
                       <p>{{ task.user.username }}</p>
                       <p>
                           A finir avant le : {{ task.endDate|date("d/m/Y") }}
                       </p>
                       <p>
                           {% if task.isDone %}
-                              Faite
+                              <button type="button" class="btn btn-outline-success disabled">Terminée</button>
                           {% else %}
-                              à finir
+                              <button type="button" class="btn btn-outline-warning disabled">A faire</button>
                           {% endif %}
                       </p>
                   </div>

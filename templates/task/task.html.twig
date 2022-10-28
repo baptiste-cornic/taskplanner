@@ -34,12 +34,14 @@
             </div>
             <div class="col-3">  <p>A finir avant le :  {{ task.endDate|date("d/m/Y") }}</p></div>
             <div class="col-3">
-                <p>
-                    {% if task.isDone %}
-                        Faite
-                    {% else %}
-                        à finir
-                    {% endif %}
+                <p id="isDone">
+                    <a href="{{ path('task_done_update', {'id': task.id}) }}">
+                        {% if task.isDone %}
+                            <button type="button" class="btn btn-outline-success">Terminée</button>
+                        {% else %}
+                            <button type="button" class="btn btn-outline-warning">A faire</button>
+                        {% endif %}
+                    </a>
                 </p>
             </div>
             <div class="col-3">

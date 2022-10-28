@@ -74,4 +74,17 @@ class TaskController extends AbstractController
 
         return $this->redirectToRoute('task_list');
     }
+
+    #[Route('/task/update/done/{id}', name: 'task_done_update', requirements: ['id' => '[0-9]+'])]
+    public function updateTaskDone($id = null,  EntityManagerInterface $em): Response
+    {
+        $task = $this->taskRepo->find($id);
+
+        $task->setIsDone(!$task->getIsDone());
+
+        $em->persist($task);
+        $em->flush();
+
+        return $this->redirectToRoute('task', ['id' => $id]);
+    }
 }
